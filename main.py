@@ -29,7 +29,10 @@ app.add_middleware(
 )
 
 
-openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise ValueError("OPENAI_API_KEY environment variable not set")
+openai_client = OpenAI(api_key=api_key)
 
 pc = Pinecone("pcsk_4jdvA1_HALsqbujDgxPWKpi9zjWwZk6UGYAeAbLdbvznuAHpyrwhCuwNC2apUZDZcUsTqG")
 PINECONE_INDEX_NAME = "openai-pdf-chat"
