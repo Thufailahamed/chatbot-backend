@@ -19,13 +19,15 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://chatbot-frontend-five-orpin.vercel.app/"],
+    allow_origins=["https://chatbot-frontend-five-orpin.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
