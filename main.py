@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Setup logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -28,26 +27,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# OpenAI Client
 openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Pinecone setup
 pc = Pinecone("pcsk_4jdvA1_HALsqbujDgxPWKpi9zjWwZk6UGYAeAbLdbvznuAHpyrwhCuwNC2apUZDZcUsTqG")
 PINECONE_INDEX_NAME = "openai-pdf-chat"
 
-# Create index if not exists
 if PINECONE_INDEX_NAME not in pc.list_indexes().names():
     logger.info(f"Creating new Pinecone index '{PINECONE_INDEX_NAME}'")
     pc.create_index(
         name=PINECONE_INDEX_NAME,
-        dimension=512,  # OpenAI embeddings are 1536-dim
+        dimension=512,  
         metric="cosine",
         spec=ServerlessSpec(cloud="aws", region="us-east-1")
     )
 
 index = pc.Index(PINECONE_INDEX_NAME)
 
-# OpenAI Embedding Model
 embeddings = OpenAIEmbeddings(model="text-embedding-3-small", openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.post("/upload-pdf")
@@ -123,7 +118,6 @@ async def chat(request: Request):
         logger.error(f"Error calling OpenAI: {e}")
         assistant_response = "⚠️ Error getting response from OpenAI."
 
-    # Generate follow-up suggestions
     suggestion_prompt = (
         "You are a helpful assistant. Based on the conversation below, suggest 3 "
         "short follow-up questions the user might ask next.\n\n"
