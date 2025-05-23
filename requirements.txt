@@ -1,9 +1,9 @@
 fastapi
 uvicorn
-python-dotenv
 PyPDF2
-requests
-openai
 langchain
-pinecone-client
 langchain-openai
+pinecone>=3.0.0
+openai
+python-dotenv
+requests
