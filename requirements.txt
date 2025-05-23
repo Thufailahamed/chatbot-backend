@@ -7,3 +7,4 @@ pinecone>=3.0.0
 openai
 python-dotenv
 requests
+python-multipart
