@@ -21,9 +21,13 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
+# ✅ UPDATED: Allow Vercel frontend domain
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "https://chatbot-frontend-five-orpin.vercel.app",  # Vercel frontend
+        "http://localhost:3000",                            # Local development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

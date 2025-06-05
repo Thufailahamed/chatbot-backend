@@ -8,5 +8,5 @@ openai
 python-dotenv
 requests
 python-multipart
-
+duckduckgo_search
 
