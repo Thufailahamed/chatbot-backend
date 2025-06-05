@@ -25,7 +25,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://chatbot-frontend-five-orpin.vercel.app/",  # Vercel frontend
+        "https://chatbot-frontend-five-orpin.vercel.app",  # Vercel frontend
         "http://localhost:3000",                            # Local development
     ],
     allow_credentials=True,
