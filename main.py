@@ -228,6 +228,7 @@ async def chat(request: Request):
     choice = response.choices[0]
 
     tool_calls = choice.message.tool_calls
+
     if tool_calls:
         for tool_call in tool_calls:
             tool_name = tool_call.function.name
@@ -266,6 +267,19 @@ async def chat(request: Request):
                 except Exception as e:
                     logger.error(f"Error calling Pinecone Assistant: {e}")
                     return {"response": "⚠️ Failed to get answer from document.", "suggestions": []}
+
+    try:
+        logger.info("No tool called. Automatically using Pinecone assistant for document search.")
+        msg = Message(content=f"Question: {last_user_msg}")
+        pinecone_response = assistant.chat(messages=[msg])
+        answer = pinecone_response["message"]["content"].strip()
+        return {
+            "response": answer,
+            "suggestions": []
+        }
+    except Exception as e:
+        logger.error(f"Error calling Pinecone Assistant in fallback: {e}")
+        return {"response": "⚠️ Failed to get answer from document.", "suggestions": []}
 
     return {"response": "⚠️ Out of context question.", "suggestions": []}
 
